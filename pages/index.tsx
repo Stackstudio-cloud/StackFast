@@ -86,7 +86,7 @@ const BlueprintCreator = ({ onCreationComplete, onCancel }: { onCreationComplete
 
 // --- The Main Page Component ---
 const HomePage: NextPage<{ session: any }> = ({ session: initialSession }) => {
-  const { data: session, status } = useSession({ required: false, fallbackData: initialSession });
+  const { data: session, status } = useSession({ required: false });
   const [view, setView] = useState<'dashboard' | 'create' | 'result'>('dashboard');
   const [savedBlueprints, setSavedBlueprints] = useState<SavedBlueprint[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
