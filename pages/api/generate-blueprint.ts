@@ -28,9 +28,15 @@ function initializeServices() {
             if (!serviceAccountKey) throw new Error("FIREBASE_SERVICE_ACCOUNT_KEY is not set.");
             
             const decodedServiceAccount = Buffer.from(serviceAccountKey, 'base64').toString('utf-8');
-            const serviceAccount: ServiceAccount = JSON.parse(decodedServiceAccount);
+            const parsedAccount = JSON.parse(decodedServiceAccount);
 
-            if (!serviceAccount['project_id']) throw new Error("Parsed service account is missing 'project_id'.");
+            if (!parsedAccount.project_id) throw new Error("Parsed service account is missing 'project_id'.");
+
+            const serviceAccount: ServiceAccount = {
+                projectId: parsedAccount.project_id,
+                privateKey: parsedAccount.private_key,
+                clientEmail: parsedAccount.client_email,
+            };
 
             initializeApp({ credential: cert(serviceAccount) });
             db = getFirestore();
